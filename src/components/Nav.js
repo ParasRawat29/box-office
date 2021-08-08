@@ -7,7 +7,7 @@ const LINKS = [
     text: 'Home',
   },
   {
-    to: '/starrd',
+    to: '/starred',
     text: 'Starred',
   },
 ];
@@ -15,13 +15,11 @@ function Nav() {
   return (
     <div>
       <ul>
-        {LINKS.map(item => {
-          return (
-            <li>
-              <Link to={item.to}>{item.text}</Link>
-            </li>
-          );
-        })}
+        {LINKS.map(item => (
+          <li>
+            <Link to={item.to}>{item.text}</Link>
+          </li>
+        ))}
       </ul>
     </div>
   );
