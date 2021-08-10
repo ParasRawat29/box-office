@@ -1,10 +1,11 @@
 import React from 'react';
 import notFoundPng from '../../images/not-found.png';
 import ShowCard from './ShowCard';
+import { FlexGrid } from '../Styled';
 
 function ShowGrid({ data }) {
   return (
-    <div>
+    <FlexGrid>
       {data.map(({ show }) => (
         <ShowCard
           key={show.id}
@@ -14,7 +15,7 @@ function ShowGrid({ data }) {
           summary={show.summary}
         />
       ))}
-    </div>
+    </FlexGrid>
   );
 }
 
