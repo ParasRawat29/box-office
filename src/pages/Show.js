@@ -1,5 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useReducer } from 'react';
 import { useParams } from 'react-router';
+import Cast from '../components/show/Cast';
+import Details from '../components/show/Details';
+import Seasons from '../components/show/Seasons';
+import ShowMainData from '../components/show/ShowMainData';
 import { apiGet } from '../misc/config';
 
 const initState = {
@@ -72,7 +77,35 @@ function Show() {
   if (errMessage) {
     return <div>OOPS Error Occured</div>;
   }
-  return <div>I am show page </div>;
+  return (
+    <div>
+      <ShowMainData
+        img={result.image}
+        name={result.name}
+        tags={result.genres}
+        summary={result.summary}
+        rating={result.rating}
+      />
+      <div>
+        <h2>Details</h2>
+        <Details
+          status={result.status}
+          network={result.network}
+          premiered={result.premiered}
+        />
+      </div>
+
+      <div>
+        <h2>Seasons</h2>
+        <Seasons seasons={result._embedded.seasons} />
+      </div>
+
+      <div>
+        <h2>Cast</h2>
+        <Cast cast={result._embedded.cast} />
+      </div>
+    </div>
+  );
 }
 
 export default Show;
