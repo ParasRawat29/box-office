@@ -6,6 +6,7 @@ import Details from '../components/show/Details';
 import Seasons from '../components/show/Seasons';
 import ShowMainData from '../components/show/ShowMainData';
 import { apiGet } from '../misc/config';
+import { InfoBlock, ShowPageWrapper } from './Show.styled';
 
 const initState = {
   result: null,
@@ -78,7 +79,7 @@ function Show() {
     return <div>OOPS Error Occured</div>;
   }
   return (
-    <div>
+    <ShowPageWrapper>
       <ShowMainData
         img={result.image}
         name={result.name}
@@ -86,25 +87,25 @@ function Show() {
         summary={result.summary}
         rating={result.rating}
       />
-      <div>
+      <InfoBlock>
         <h2>Details</h2>
         <Details
           status={result.status}
           network={result.network}
           premiered={result.premiered}
         />
-      </div>
+      </InfoBlock>
 
-      <div>
+      <InfoBlock>
         <h2>Seasons</h2>
         <Seasons seasons={result._embedded.seasons} />
-      </div>
+      </InfoBlock>
 
-      <div>
+      <InfoBlock>
         <h2>Cast</h2>
         <Cast cast={result._embedded.cast} />
-      </div>
-    </div>
+      </InfoBlock>
+    </ShowPageWrapper>
   );
 }
 
