@@ -10,7 +10,9 @@ function Starred() {
   const [isloading, setLoading] = useState(true);
   const [err, seterr] = useState(null);
   const [shows, setShows] = useState(null);
+
   console.log(starred);
+
   useEffect(() => {
     if (starred && starred.length > 0) {
       const promises = starred.map(showid => apiGet(`shows/${showid}`));
