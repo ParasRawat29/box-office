@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useCallback } from 'react';
 import notFoundPng from '../../images/not-found.png';
 import ShowCard from './ShowCard';
 import { FlexGrid } from '../Styled';
@@ -13,13 +14,13 @@ function ShowGrid({ data }) {
       {data.map(({ show }) => {
         const isStarred = starredshows.includes(show.id);
 
-        function starClick() {
+        const starClick = () => {
           if (isStarred) {
             dispatchStarred({ type: 'REMOVE', showid: show.id });
           } else {
             dispatchStarred({ type: 'ADD', showid: show.id });
           }
-        }
+        };
 
         return (
           <ShowCard

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import ActorGrid from '../components/actor/ActorGrid';
 import MainPageLayout from '../components/MainPageLayout';
 import CustomRadio from '../components/show/CustomRadio';
@@ -11,6 +11,20 @@ import {
   SearchInput,
 } from './Home.styled';
 
+const renderResult = results => {
+  if (results && results.length === 0) {
+    return <div>No result Found</div>;
+  }
+  if (results && results.length > 0) {
+    return results[0].show ? (
+      <ShowGrid data={results} />
+    ) : (
+      <ActorGrid data={results} />
+    );
+  }
+  return null;
+};
+
 function Home() {
   const [input, setInput] = useLastQuery();
   const [results, setresults] = useState(null);
@@ -18,17 +32,19 @@ function Home() {
 
   const isShowSearch = searchOption === 'shows';
 
-  const onSearch = async () => {
-    // apiGet(`search/shows?q=${input}`).then(res => {
-    //   setresults(() => res);
-    // });
-    setresults(await apiGet(`search/${searchOption}?q=${input}`));
+  const onSearch = () => {
+    apiGet(`/search/${searchOption}?q=${input}`).then(result => {
+      setresults(result);
+    });
   };
 
-  const Handleinput = e => {
-    const val = e.target.value;
-    setInput(val);
-  };
+  const Handleinput = useCallback(
+    e => {
+      const val = e.target.value;
+      setInput(val);
+    },
+    [setInput]
+  );
 
   const HandleEnter = e => {
     if (e.keyCode === 13) {
@@ -36,23 +52,9 @@ function Home() {
     }
   };
 
-  const renderResult = () => {
-    if (results && results.length === 0) {
-      return <div>No result Found</div>;
-    }
-    if (results && results.length > 0) {
-      return results[0].show ? (
-        <ShowGrid data={results} />
-      ) : (
-        <ActorGrid data={results} />
-      );
-    }
-    return null;
-  };
-
-  const onRadioChange = e => {
+  const onRadioChange = useCallback(e => {
     setsearchOption(() => e.target.value);
-  };
+  }, []);
 
   return (
     <MainPageLayout>
@@ -90,7 +92,7 @@ function Home() {
           Search
         </button>
       </SearchButtonWrapper>
-      {renderResult()}
+      {renderResult(results)}
     </MainPageLayout>
   );
 }
